@@ -6,7 +6,7 @@
 /*   By: jopereir <jopereir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 12:47:38 by jopereir          #+#    #+#             */
-/*   Updated: 2025/01/08 13:08:26 by jopereir         ###   ########.fr       */
+/*   Updated: 2025/01/08 15:51:10 by jopereir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,14 @@ static void	ft_putnbr(int n, int *cnt)
 
 static void	ft_puthex(unsigned int n, const char *base, int *cnt)
 {
-	if (n >= 16)
-		ft_puthex(n / 16, base, cnt);
-	ft_putchar(base[n % 16], cnt);
+	int	len;
+
+	len = 0;
+	while (base[len])
+		len++;
+	if (n >= len)
+		ft_puthex(n / len, base, cnt);
+	ft_putchar(base[n % len], cnt);
 }
 
 int	ft_printf(const char *format, ...)
@@ -68,7 +73,7 @@ int	ft_printf(const char *format, ...)
 			else if (format[i] == 'd')
 				ft_putnbr(va_arg(args, int), &cnt);
 			else if (format[i] == 'x')
-				ft_puthex(va_arg(args, unsigned int), "0123456789abcdef", &cnt);
+				ft_puthex(va_arg(args, unsigned int), "0123456789", &cnt);
 		}
 		else
 			ft_putchar(format[i], &cnt);
